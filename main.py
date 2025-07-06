@@ -51,6 +51,17 @@ while running:
                 player_y -= 1
             if event.key == pygame.K_DOWN:
                 player_y += 1
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = event.pos
+            grid_x = mouse_x // BLOCK_SIZE
+            grid_y = mouse_y // BLOCK_SIZE
+
+            # グリッドの範囲内かチェック
+            if 0 <= grid_x < GRID_WIDTH and 0 <= grid_y < GRID_HEIGHT:
+                if event.button == 1:  # 左クリックでブロックを配置
+                    world[grid_y][grid_x] = 1
+                elif event.button == 3:  # 右クリックでブロックを破壊
+                    world[grid_y][grid_x] = 0
 
     # 画面を白で塗りつぶす
     screen.fill(WHITE)
