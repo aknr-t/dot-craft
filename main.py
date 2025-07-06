@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # ゲームの初期化
 pygame.init()
@@ -26,11 +27,11 @@ GRID_HEIGHT = SCREEN_HEIGHT // BLOCK_SIZE
 # ワールドデータ (0: 空, 1: ブロック)
 world = [[0 for _ in range(GRID_WIDTH)] for _ in range(GRID_HEIGHT)]
 
-# 初期ブロックの配置 (テスト用)
-world[GRID_HEIGHT // 2][GRID_WIDTH // 2] = 1
-world[GRID_HEIGHT // 2][GRID_WIDTH // 2 + 1] = 1
-world[GRID_HEIGHT // 2 + 1][GRID_WIDTH // 2] = 1
-world[GRID_HEIGHT // 2 + 1][GRID_WIDTH // 2 + 1] = 1
+# ワールドの初期生成 (ランダム)
+for y in range(GRID_HEIGHT):
+    for x in range(GRID_WIDTH):
+        if random.random() < 0.2:  # 20%の確率でブロックを配置
+            world[y][x] = 1
 
 # プレイヤーの初期位置
 player_x = GRID_WIDTH // 2
