@@ -13,9 +13,17 @@ pygame.display.set_caption("DotCraft")
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 LIGHT_GRAY = (200, 200, 200)
+GREEN = (0, 255, 0)
 
 # ブロックサイズ
 BLOCK_SIZE = 20
+
+# グリッドのサイズ
+GRID_WIDTH = SCREEN_WIDTH // BLOCK_SIZE
+GRID_HEIGHT = SCREEN_HEIGHT // BLOCK_SIZE
+
+# ワールドデータ (0: 空, 1: ブロック)
+world = [[0 for _ in range(GRID_WIDTH)] for _ in range(GRID_HEIGHT)]
 
 # ゲームループ
 running = True
@@ -32,6 +40,12 @@ while running:
         pygame.draw.line(screen, LIGHT_GRAY, (x, 0), (x, SCREEN_HEIGHT))
     for y in range(0, SCREEN_HEIGHT, BLOCK_SIZE):
         pygame.draw.line(screen, LIGHT_GRAY, (0, y), (SCREEN_WIDTH, y))
+
+    # ブロックの描画
+    for y in range(GRID_HEIGHT):
+        for x in range(GRID_WIDTH):
+            if world[y][x] == 1:
+                pygame.draw.rect(screen, GREEN, (x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
 
     # 画面の更新
     pygame.display.flip()
