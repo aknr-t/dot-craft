@@ -14,6 +14,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 LIGHT_GRAY = (200, 200, 200)
 GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 
 # ブロックサイズ
 BLOCK_SIZE = 20
@@ -25,12 +26,31 @@ GRID_HEIGHT = SCREEN_HEIGHT // BLOCK_SIZE
 # ワールドデータ (0: 空, 1: ブロック)
 world = [[0 for _ in range(GRID_WIDTH)] for _ in range(GRID_HEIGHT)]
 
+# 初期ブロックの配置 (テスト用)
+world[GRID_HEIGHT // 2][GRID_WIDTH // 2] = 1
+world[GRID_HEIGHT // 2][GRID_WIDTH // 2 + 1] = 1
+world[GRID_HEIGHT // 2 + 1][GRID_WIDTH // 2] = 1
+world[GRID_HEIGHT // 2 + 1][GRID_WIDTH // 2 + 1] = 1
+
+# プレイヤーの初期位置
+player_x = GRID_WIDTH // 2
+player_y = GRID_HEIGHT // 2
+
 # ゲームループ
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                player_x -= 1
+            if event.key == pygame.K_RIGHT:
+                player_x += 1
+            if event.key == pygame.K_UP:
+                player_y -= 1
+            if event.key == pygame.K_DOWN:
+                player_y += 1
 
     # 画面を白で塗りつぶす
     screen.fill(WHITE)
@@ -46,6 +66,9 @@ while running:
         for x in range(GRID_WIDTH):
             if world[y][x] == 1:
                 pygame.draw.rect(screen, GREEN, (x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
+
+    # プレイヤーの描画
+    pygame.draw.rect(screen, BLUE, (player_x * BLOCK_SIZE, player_y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
 
     # 画面の更新
     pygame.display.flip()
